@@ -1,24 +1,17 @@
-package com.ant;
+package com.ant.ant;
 
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class Stick extends RenderObject {
+public class Stick{
     private Integer leftEnd;
     private Integer rightEnd;
-
-    @Override
-    public void update() {
-        this.render();
-    }
 
     private void render(){
 
