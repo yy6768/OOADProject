@@ -8,8 +8,7 @@ import lombok.NoArgsConstructor;
 import java.awt.*;
 
 /**
-    Ant类依赖 lombok 有set和get函数
-    需要继承Ant 绘制类
+    Ant类依赖 lombok有set和get函数
  **/
 @Data
 @AllArgsConstructor
@@ -28,8 +27,10 @@ public class Ant {
         pos = pos + direction * velocity;
     }
 
-    public void update(Graphics g,Integer stickPos){
-//        g.drawImage(img,pos,stickPos,null);
+    public void draw(Graphics g, Integer y){
+        g.setColor(Color.RED);
+        int r = 40;
+        g.drawOval(pos * 4 - r , y - 20 - r, r ,r);
     }
 
 
