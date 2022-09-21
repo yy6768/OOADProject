@@ -76,7 +76,7 @@ public class CreepingGame extends JPanel {
      *
      * @return 返回是否结束
      */
-    public boolean isDone() {
+    private boolean isDone() {
         return ants.isEmpty();
     }
 
@@ -146,7 +146,7 @@ public class CreepingGame extends JPanel {
      *
      * @param g
      */
-    public void drawInfo(Graphics g) {
+    private void drawInfo(Graphics g) {
         String maxStr = "最长的时间:" + PlayRoom.maxTimestamp;
         String minStr = "最短的时间:" + PlayRoom.minTimestamp;
         String timeStr = "当前的时间:" + timestamp;
@@ -190,7 +190,7 @@ public class CreepingGame extends JPanel {
      * 绘制  repaint();
      * 等待 Thread.sleep(inc_time);
      */
-    public void update() {
+    private void update() {
         //时间戳加1
         timestamp++;
         Integer[] old_position = new Integer[ANT_NUM];

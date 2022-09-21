@@ -1,6 +1,9 @@
 package com.ant.ant;
 
+import com.ant.util.ResultPanel;
+
 import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,13 +16,11 @@ public class PlayRoom {
 
     /*
         4个常量：
-        resultTimestamp指向一个数组，管理当前所有的游戏时间结果
         HEIGHT表示绘制时默认的窗口高度
         WIDTH表示绘制时默认的窗口宽度
         INC_TIME表示显示画面两帧之间的间隔
         gameRoomFrame表示当前的显示框体
      */
-    private static final List<Integer> resultTimestamp = new ArrayList<>();
     public static final Integer HEIGHT = 800;
     public static final Integer WIDTH = 1200;
     public static final Integer INC_TIME = 100;
@@ -52,10 +53,12 @@ public class PlayRoom {
             /*
                 更新所有结果
              */
-            resultTimestamp.add(res);
             if (maxTimestamp == null || maxTimestamp < res) maxTimestamp = res;
             if (minTimestamp == null || minTimestamp > res) minTimestamp = res;
         }
+        ResultPanel panel = new ResultPanel();
+        gameRoomFrame.add(panel);
+        panel.updateUI();
     }
 
 
