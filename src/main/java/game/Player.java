@@ -98,6 +98,11 @@ public class Player implements CardController {
         }
     }
 
+    /**
+     * double²Ù×÷
+     * ¶Ä×¢·­±¶
+     * ×´Ì¬Ìæ»»³Édouble(standºÍhitÖ»ÄÜÖ´ÐÐÒ»´Î£©
+     */
     public void doubleOperation() {
         place.setBet(place.getBet() * 2);
         System.out.println(place.getBet());
@@ -106,6 +111,12 @@ public class Player implements CardController {
         status = "double";
     }
 
+    /**
+     * hit²Ù×÷
+     * 1¡¢³éÅÆ
+     * 2¡¢½ûÖ¹¼Ó±¶
+     * 3¡¢ÅÐ¶ÏÊÇ·ñ±¬ÅÆ
+     */
     public void hitOperation() {
         drawCard();
         PlayerPanel panel = (PlayerPanel) this.client.getCurrentPanel();
@@ -165,6 +176,5 @@ public class Player implements CardController {
         if ("win".equalsIgnoreCase(status)) client.setBet(client.getBet() + place.getBet());
         else if ("draw".equalsIgnoreCase(status)) client.setBet(client.getBet());
         else if ("lose".equalsIgnoreCase(status)) client.setBet(client.getBet() - place.getBet());
-        System.out.println(client.getBet());
     }
 }

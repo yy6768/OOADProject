@@ -13,6 +13,10 @@ import java.util.List;
 /**
  * Place类
  * 用于表示玩家面前的排堆
+ * cards 表示当前玩家（庄家）面前的排堆
+ * controller 表示对应的玩家或者庄家
+ * bet表示当前place对应的赌注
+ * panel表示对应的PlacePanel
  */
 @Data
 @NoArgsConstructor
@@ -25,7 +29,6 @@ public class Place {
     public Place(CardController controller){
         this.cards = new ArrayList<>();
         this.controller = controller;
-        this.bet = GameConfig.GAME_INIT_BET;
     }
 
     public void addCard(Card card){
@@ -35,7 +38,7 @@ public class Place {
 
     /**
      * 返回当前place的总和
-     * @return
+     * @return 当前place的总和
      */
     public Integer calculate(){
         Integer res = 0;

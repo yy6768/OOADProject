@@ -1,25 +1,26 @@
 package game;
 
-import game.Card;
 import interfaces.CardController;
-import game.Deck;
-import game.Place;
 
 /**
  * Dealer 庄家类
- * 庄家类会管理牌
- *
- *
+ * 庄家类需要继承CardController接口
  */
 public class Dealer implements CardController {
-    private Place place;
-    private BlackJackGame game;
-    private Deck deck;
-    public Dealer(BlackJackGame game, Deck deck){
+    //庄家所控制的牌堆
+    private final Place place;
+    //这句游戏的牌库对象
+    private final Deck deck;
+    //初始函数
+    public Dealer(Deck deck){
         this.place = new Place(this);
-        this.game = game;
         this.deck = deck;
     }
+
+    /**
+     * 卡牌管理接口所定义的函数
+     * 庄家抽牌时需要设置暗牌
+     */
     @Override
     public void drawCard() {
         Card card = deck.draw();
@@ -37,14 +38,17 @@ public class Dealer implements CardController {
         }
     }
 
+    /**
+     * 庄家的操作：当点数小于17时一直抽牌
+     */
     @Override
     public void operate() {
         while(place.calculate() < 17){
             drawCard();
         }
-
     }
 
+    //get/set函数
     public Place getPlace() {
         return place;
     }

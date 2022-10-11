@@ -2,12 +2,13 @@ package client;
 
 /**
  * PlayerConfig类
- * 存储玩家相关的配置
+ * 存储玩客户端界面的相关的配置
  */
 public class PlayerConfig {
     public static final Integer FRAME_WIDTH = 1200;
     public static final Integer FRAME_HEIGHT = 800;
     public static final String[] LABEL_NAME= {"Double", "Hit", "Stand", "Surrender"};
+    public static final Integer INIT_BET = 1000;
 
     public static final String RULE = "1、该游戏由1名玩家对战电脑扮演的庄家，使用除大小王之外的52张牌，游戏者的目标是使手中的牌的点数之和不超过21点且尽量大。当使用1副牌时，以下每种牌各一张（没有大小王）\n"
             +"2、大家手中扑克点数的计算是：2至9牌，按其原点数计算；\n" +

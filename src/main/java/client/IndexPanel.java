@@ -5,7 +5,6 @@ import interfaces.Panel;
 import utils.ImageUtil;
 
 import javax.swing.*;
-import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -15,18 +14,15 @@ import java.util.Random;
 
 /**
  * 首页页面
- * 通过按钮来供用户选择模式
- * 单人模式
- * 多人模式
+ * 存在开始游戏和游戏规则按钮
  */
 public class IndexPanel extends JPanel implements Panel {
-
-    private static final long serialVersionUID = 1L;
-
+    //当前界面的客户端
     private final PlayerClient client;
-
+    //当前界面所有Label
     private final List<JLabel> labels = new ArrayList<>();
-    private final Image cardImg = ImageUtil.getImage("card/clubA.JPG");
+    private Image cardImg;
+
 
     public IndexPanel(PlayerClient playerClient) {
         this.client = playerClient;
@@ -34,11 +30,15 @@ public class IndexPanel extends JPanel implements Panel {
         setBackground(new Color(0, 139, 69));
         renderTitle();
         renderLabels();
+        Random random  = new Random();
+        String randomColor = GameConfig.CARD_COLORS[random.nextInt(4)];
+        String randomValue = GameConfig.CARD_VALUES[random.nextInt(13)];
+        cardImg = ImageUtil.getImage("card/"+randomColor+randomValue+".JPG");
         repaint();
     }
 
     /**
-     * 绘制标题
+     * 绘制标题Label
      */
     public void renderTitle() {
         int titleX = client.getPlayerFrame().getWidth() / 10;
@@ -53,10 +53,10 @@ public class IndexPanel extends JPanel implements Panel {
     }
 
     /**
-     * 绘制labels
+     * 绘制label 按钮
+     * 并添加点击事件
      */
     public void renderLabels() {
-
         int buttonX = client.getPlayerFrame().getWidth() / 5;
         int buttonY = 2 * client.getPlayerFrame().getHeight() / 5;
         int buttonWidth = 3 * client.getPlayerFrame().getWidth() / 10;
@@ -74,6 +74,8 @@ public class IndexPanel extends JPanel implements Panel {
             }
         });
         playButton.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
+        add(playButton);
+        labels.add(playButton);
 
         JLabel ruleButton = new JLabel("Rule");
         ruleButton.setBounds(buttonX, buttonY + buttonDistance, buttonWidth, buttonHeight);
@@ -89,8 +91,7 @@ public class IndexPanel extends JPanel implements Panel {
         });
         ruleButton.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
 
-        add(playButton);
-        labels.add(playButton);
+
         add(ruleButton);
         labels.add(ruleButton);
     }
@@ -103,6 +104,7 @@ public class IndexPanel extends JPanel implements Panel {
      */
     @Override
     public void paint(Graphics g) {
+        //绘制卡牌图片
         super.paint(g);
         int imageX = 3 * client.getPlayerFrame().getWidth() / 5;
         int imageY = 2 * client.getPlayerFrame().getHeight() / 5;
@@ -110,6 +112,7 @@ public class IndexPanel extends JPanel implements Panel {
         int imageWidth = imageHeight * 2 / 3;
         g.drawImage(cardImg, imageX, imageY, imageWidth, imageHeight, null, null);
 
+        //绘制当前赌注
         int betX = 3 * client.getPlayerFrame().getWidth() / 5;
         int betY = 4 * client.getPlayerFrame().getHeight() / 5;
         int fontSize = client.getPlayerFrame().getHeight() / 20;
@@ -119,7 +122,7 @@ public class IndexPanel extends JPanel implements Panel {
 
     /**
      * 游戏界面共有函数
-     * 当窗口大小调整时启用
+     * 窗口调整大小时，移除所有组件重新绘制
      */
     @Override
     public void resize() {
@@ -128,6 +131,10 @@ public class IndexPanel extends JPanel implements Panel {
         }
         renderTitle();
         renderLabels();
+        Random random  = new Random();
+        String randomColor = GameConfig.CARD_COLORS[random.nextInt(4)];
+        String randomValue = GameConfig.CARD_VALUES[random.nextInt(13)];
+        cardImg = ImageUtil.getImage("card/"+randomColor+randomValue+".JPG");
         repaint();
     }
 }

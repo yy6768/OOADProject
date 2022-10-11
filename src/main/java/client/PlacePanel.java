@@ -8,6 +8,10 @@ import utils.ImageUtil;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * PlayerPanel的子Panel
+ * 用于绘制当前Place（卡牌容器）的卡牌
+ */
 public class PlacePanel extends JPanel implements Panel {
     private Place place;
 

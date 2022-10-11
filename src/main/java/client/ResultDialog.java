@@ -6,12 +6,20 @@ import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 
 /**
- * 用于显示结果
+ * 结果面板
+ * 包含结果信息和两个跳转界面按钮
  */
 public class ResultDialog extends JDialog {
+    //当前界面客户端
     private final PlayerClient client;
+    //当前界面结果信息
     private final String content;
 
+    /**
+     * 构造函数
+     * @param client 客户端
+     * @param text 输出文本
+     */
     public ResultDialog(PlayerClient client, String text) {
         super();
         setTitle("游戏结束");
@@ -27,6 +35,10 @@ public class ResultDialog extends JDialog {
 
             }
 
+            /**
+             * 当关闭窗口时跳转到首页
+             * @param e
+             */
             @Override
             public void windowClosing(WindowEvent e) {
                 client.backToIndex();
@@ -61,6 +73,9 @@ public class ResultDialog extends JDialog {
         initButtons();
     }
 
+    /**
+     * 初始化文字信息
+     */
     private void initLabel() {
         JLabel label = new JLabel(content);
         int labelX = getWidth() / 5;
@@ -73,6 +88,11 @@ public class ResultDialog extends JDialog {
         add(label);
     }
 
+    /**
+     * 初始化按钮
+     * goOnButton用于新启动一局游戏
+     * cancelButton 用于返回到起始界面
+     */
     private void initButtons() {
         int buttonX = getWidth() / 6;
         int buttonY = getHeight() / 2;

@@ -13,6 +13,7 @@ import java.awt.*;
  *  value 面值
  *  color 花色
  *  isShow 是否显示
+ *  所对应的图片
  */
 @Data
 @NoArgsConstructor

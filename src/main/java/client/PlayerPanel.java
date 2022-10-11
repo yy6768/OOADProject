@@ -15,10 +15,10 @@ import java.util.List;
  * 实现了我们自己定义的接口Panel
  */
 public class PlayerPanel extends JPanel implements Panel {
-    private static final long serialVersionUID = 1L;
-
-    private PlayerClient client;
-    private BlackJackGame game;
+    //当前客户端
+    private final PlayerClient client;
+    //当前
+    private final BlackJackGame game;
     //存储界面中的所有button
     private final List<JButton> buttons;
     //玩家的Place和庄家的Place
@@ -104,6 +104,10 @@ public class PlayerPanel extends JPanel implements Panel {
     }
 
 
+    /**
+     * 绘制玩家信息和庄家信息
+     * @param g
+     */
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -128,6 +132,10 @@ public class PlayerPanel extends JPanel implements Panel {
         g.drawString(dealerStatus, informationX, dealerY + fontSize);
     }
 
+    /**
+     * 所有界面继承，当调整窗口大小时启用
+     * 移除当前所有组件并重新绘制其他组件
+     */
     @Override
     public void resize() {
         for (JButton button : buttons) {
@@ -140,7 +148,7 @@ public class PlayerPanel extends JPanel implements Panel {
         repaint();
     }
 
-
+    //get和set函数
     public List<JButton> getButtons() {
         return buttons;
     }

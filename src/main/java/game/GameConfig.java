@@ -8,12 +8,11 @@ import java.util.Map;
  * Game的相关配置
  */
 public class GameConfig {
-
-    public static final Integer INIT_BET = 1000;
-    public static final Integer GAME_INIT_BET = 50;
-
+    //   所有牌面值
     public static final String[] CARD_VALUES = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+    //   所有花色
     public static final String[] CARD_COLORS = {"spade", "heart", "heart", "diamond"};
+    //  所有牌面值和分值的映射关系
     public static final Map<String, Integer> VALUE_TO_POINT = Collections.unmodifiableMap(new HashMap<String, Integer>() {
         {
             put("A", 11);

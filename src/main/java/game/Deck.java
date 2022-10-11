@@ -17,7 +17,7 @@ import java.util.List;
  * shuffle 洗牌操作
  */
 public class Deck {
-    private List<Card> cards;
+    private final List<Card> cards;
     private Integer curr;
     public Deck(){
         cards = new ArrayList<>();
@@ -29,7 +29,6 @@ public class Deck {
     public void init() {
         for (int i = 0; i < GameConfig.CARD_VALUES.length; i++) {
             for (int j = 0; j < GameConfig.CARD_COLORS.length; j++) {
-//                System.out.println("/card/" + GameConfig.CARD_COLORS[j] + GameConfig.CARD_VALUES[i] + ".JPG");
                 Image image = ImageUtil.getImage("card/" + GameConfig.CARD_COLORS[j] + GameConfig.CARD_VALUES[i] + ".JPG");
                 cards.add(new Card(GameConfig.CARD_VALUES[i], GameConfig.CARD_COLORS[j], false, image));
             }
@@ -46,11 +45,17 @@ public class Deck {
 
     /**
      * draw
-     * 抽一张卡
+     * 抽一张牌
+     * 这里考虑使用ArrayList模拟队列
+     * curr表示当前的队头
+     * 当排堆抽完时洗混牌库并将队头重置
      */
     public Card draw(){
         curr -= 1;
-        if(curr < 0) curr += 52;
+        if(curr < 0) {
+            curr += 52;
+            shuffle();
+        }
         return cards.get(curr);
     }
 }

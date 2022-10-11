@@ -12,6 +12,7 @@ import java.util.List;
  * player 包括Player对象列表
  * deck 一副牌堆对象
  * dealer 庄家对象
+ * client 该局游戏对应的客户端
  */
 public class BlackJackGame extends Thread {
 
@@ -23,11 +24,13 @@ public class BlackJackGame extends Thread {
     /**
      * constructor
      * 负责创建游戏所需的对象
+     * 初始化游戏
      */
     public BlackJackGame(PlayerClient client) {
+        //初始化排堆
         this.deck = new Deck();
         this.player = new Player(client, deck);
-        this.dealer = new Dealer(this, this.deck);
+        this.dealer = new Dealer(deck);
         this.client = client;
     }
 
@@ -35,6 +38,7 @@ public class BlackJackGame extends Thread {
      * 计算游戏结果
      */
     private void judge() {
+        //如果玩家爆点，那么直接结束游戏
         if(!"completed".equalsIgnoreCase(player.getStatus())) return;
 
         List<Card> cards = dealer.getPlace().getCards();
@@ -76,6 +80,7 @@ public class BlackJackGame extends Thread {
         panel.showResultDialog();
     }
 
+    //get/set函数
     public Player getPlayer(){
         return player;
     }
