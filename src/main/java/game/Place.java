@@ -1,7 +1,9 @@
 package game;
 
 
+import client.PlacePanel;
 import client.PlayerConfig;
+import interfaces.CardController;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -18,11 +20,12 @@ public class Place {
     private List<Card> cards;
     private CardController controller;
     private Integer bet;
+    private PlacePanel panel;
 
     public Place(CardController controller){
         this.cards = new ArrayList<>();
         this.controller = controller;
-        this.bet = PlayerConfig.GAME_INIT_BET;
+        this.bet = GameConfig.GAME_INIT_BET;
     }
 
     public void addCard(Card card){
@@ -46,11 +49,5 @@ public class Place {
         return res;
     }
 
-    public void showCards() {
-        for(Card card:cards){
-            if(card.getIsShow()) System.out.println(card.getValue() + " of " + card.getColor());
-            else System.out.println("Hidden");
-        }
-    }
 
 }

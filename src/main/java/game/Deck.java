@@ -1,5 +1,8 @@
 package game;
 
+import utils.ImageUtil;
+
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -26,7 +29,9 @@ public class Deck {
     public void init() {
         for (int i = 0; i < GameConfig.CARD_VALUES.length; i++) {
             for (int j = 0; j < GameConfig.CARD_COLORS.length; j++) {
-                cards.add(new Card(GameConfig.CARD_VALUES[i], GameConfig.CARD_COLORS[j], false));
+//                System.out.println("/card/" + GameConfig.CARD_COLORS[j] + GameConfig.CARD_VALUES[i] + ".JPG");
+                Image image = ImageUtil.getImage("card/" + GameConfig.CARD_COLORS[j] + GameConfig.CARD_VALUES[i] + ".JPG");
+                cards.add(new Card(GameConfig.CARD_VALUES[i], GameConfig.CARD_COLORS[j], false, image));
             }
         }
         shuffle();
