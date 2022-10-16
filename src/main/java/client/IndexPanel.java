@@ -77,8 +77,21 @@ public class IndexPanel extends JPanel implements Panel {
         add(playButton);
         labels.add(playButton);
 
+        JLabel multiPlayButton = new JLabel("MultiPlayer");
+        multiPlayButton.setBounds(buttonX, buttonY + buttonDistance, buttonWidth, buttonHeight);
+        multiPlayButton.addMouseListener(new LabelClickListener() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                client.startMultiGame();
+            }
+        });
+        multiPlayButton.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
+        add(multiPlayButton);
+        labels.add(multiPlayButton);
+
         JLabel ruleButton = new JLabel("Rule");
-        ruleButton.setBounds(buttonX, buttonY + buttonDistance, buttonWidth, buttonHeight);
+        ruleButton.setBounds(buttonX, buttonY + 2 * buttonDistance, buttonWidth, buttonHeight);
         ruleButton.addMouseListener(new LabelClickListener() {
             @Override
             public void mouseClicked(MouseEvent e) {

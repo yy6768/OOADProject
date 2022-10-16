@@ -2,7 +2,6 @@ package game;
 
 
 import client.PlacePanel;
-import client.PlayerConfig;
 import interfaces.CardController;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -52,5 +51,16 @@ public class Place {
         return res;
     }
 
+    public String toString(){
+        StringBuilder builder = new StringBuilder();
+        for(Card card:cards){
+            if(!card.getIsShow())
+                builder.append("back.JPG ");
+            else
+                builder.append(card.getColor()).append(card.getValue()).append(".JPG ");
+        }
+        builder.append(calculate());
+        return builder.toString();
+    }
 
 }

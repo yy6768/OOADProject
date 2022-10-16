@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.awt.*;
-
 
 /**
  * Card类
@@ -22,5 +20,4 @@ public class Card {
     private String value;
     private String color;
     private Boolean isShow;
-    private Image image;
 }

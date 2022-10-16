@@ -41,7 +41,6 @@ public class Dealer implements CardController {
     /**
      * 庄家的操作：当点数小于17时一直抽牌
      */
-    @Override
     public void operate() {
         while(place.calculate() < 17){
             drawCard();

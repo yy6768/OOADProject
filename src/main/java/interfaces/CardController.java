@@ -8,5 +8,4 @@ package interfaces;
 public interface CardController {
     void drawCard();
     void start();
-    void operate();
 }

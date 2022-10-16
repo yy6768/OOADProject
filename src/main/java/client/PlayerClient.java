@@ -1,15 +1,16 @@
 package client;
 
 
-import game.BlackJackGame;
-import game.GameConfig;
 import interfaces.Panel;
+import server.ServerConfig;
 
 import javax.swing.*;
 import javax.swing.plaf.FontUIResource;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.io.*;
+import java.net.Socket;
 
 /**
  * 用户的客户端类,管理JFrame窗口
@@ -79,24 +80,63 @@ public class PlayerClient {
      * 2、替换当前界面为1个新的游戏界面
      * 3、启动一局新游戏
      */
-    public void startGame() {
+    public void startGame(){
         // 判断
         if(bet <= 50){
             JOptionPane.showMessageDialog(playerFrame,"您已没有最低限额的赌注");
             playerFrame.dispose();
             return;
         }
+        PlayerPanel panel;
+        try {
+            //添加socket
+            Socket socket = new Socket("localhost", ServerConfig.SOCKET_PORT);
+            OutputStream out = socket.getOutputStream();
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+            bw.write("s" + "\r\n");
+            bw.flush();
+            //新建游戏界面
+            panel = new PlayerPanel(1,this, socket);
+            //替换首页界面到游戏界面
+            playerFrame.remove((Component) currentPanel);
+            playerFrame.add(panel);
+            currentPanel = panel;
+            panel.updateUI();
+            new Thread(panel).start();
+        } catch (IOException e) {
+            System.out.println("连接服务器失败，请重试");
+        }
+    }
 
-        //替换首页界面到游戏界面
-        playerFrame.remove((Component) currentPanel);
-        BlackJackGame game = new BlackJackGame(this);
-        PlayerPanel panel = new PlayerPanel(this, game);
-        playerFrame.add(panel);
-        currentPanel = panel;
-        panel.updateUI();
+    public void startMultiGame() {
+        // 判断
+        if(bet <= 50){
+            JOptionPane.showMessageDialog(playerFrame,"您已没有最低限额的赌注");
+            playerFrame.dispose();
+            return;
+        }
+        PlayerPanel panel;
+        try {
+            //添加socket
+            Socket socket = new Socket("localhost", ServerConfig.SOCKET_PORT);
+            InputStream in = socket.getInputStream();
+            OutputStream out = socket.getOutputStream();
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+            bw.write("m" + "\r\n");
+            bw.flush();
 
-        //启动游戏类
-        game.start();
+            //新建游戏界面
+            panel = new PlayerPanel(1,this, socket);
+            //替换首页界面到游戏界面
+            playerFrame.remove((Component) currentPanel);
+            playerFrame.add(panel);
+            currentPanel = panel;
+            panel.updateUI();
+            new Thread(panel).start();
+        } catch (IOException e) {
+            System.out.println("连接服务器失败，请重试");
+        }
     }
 
     /**
@@ -117,8 +157,6 @@ public class PlayerClient {
         return playerFrame;
     }
 
-    public Panel getCurrentPanel(){ return currentPanel; }
-
     public void setBet(Integer bet) {
         this.bet = bet;
     }
@@ -136,6 +174,7 @@ public class PlayerClient {
         PlayerClient client = new PlayerClient();
         client.initFrame();
     }
+
 
 
 }

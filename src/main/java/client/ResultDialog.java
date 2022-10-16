@@ -25,7 +25,7 @@ public class ResultDialog extends JDialog {
         setTitle("游戏结束");
         this.client = client;
         this.content = text;
-        setSize(300, 200);
+        setSize(600, 400);
         setLocationRelativeTo(null);
         setLayout(null);
         setResizable(false);
@@ -94,30 +94,21 @@ public class ResultDialog extends JDialog {
      * cancelButton 用于返回到起始界面
      */
     private void initButtons() {
-        int buttonX = getWidth() / 6;
+        int buttonX = getWidth() / 3;
         int buttonY = getHeight() / 2;
         int buttonWidth = getWidth() / 4;
         int buttonHeight = getHeight() / 10;
         int fontSize = getHeight() / 15;
-        JButton goOnButton = new JButton("继续");
         JButton cancelButton = new JButton("结束");
         Font buttonFont = new Font(Font.DIALOG, Font.ITALIC, fontSize);
 
-        goOnButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
-        goOnButton.setFont(buttonFont);
-        goOnButton.addActionListener(e -> {
-            client.startGame();
-            this.dispose();
-        });
-
-        cancelButton.setBounds(buttonX + getWidth() / 3, buttonY, buttonWidth, buttonHeight);
+        cancelButton.setBounds(buttonX, buttonY, buttonWidth, buttonHeight);
         cancelButton.setFont(buttonFont);
         cancelButton.addActionListener(e -> {
             client.backToIndex();
             this.dispose();
         });
 
-        add(goOnButton);
         add(cancelButton);
     }
 }
