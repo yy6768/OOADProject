@@ -29,13 +29,14 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
     private final List<JButton> buttons;
     //玩家的Place和庄家的Place
     private final List<PlacePanel> playerPlaces;
-    private PlacePanel dealerPlace;
+    private final PlacePanel dealerPlace;
     //联系game的socket
     private final Socket playerSocket;
     //
     private String dealerStatus;
     //玩家状态
-    private final Map<Integer,String> playerStatuses;
+    private final Map<Integer, String> playerStatuses;
+
     /**
      * 构造函数
      */
@@ -49,7 +50,7 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
         playerStatuses = new HashMap<>();
         for (int i = 0; i < playerNum; i++) {
             playerPlaces.add(new PlacePanel());
-            playerStatuses.put(i,"点数：0");
+            playerStatuses.put(i, "点数：0");
         }
         dealerPlace = new PlacePanel();
         setBackground(new Color(0, 139, 69));
@@ -77,7 +78,7 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
             button.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
             button.setBounds(buttonX + i * (buttonWidth + buttonWidth / 2), buttonY, buttonWidth, buttonHeight);
             add(button);
-
+            button.setEnabled(false);
             switch (i) {
                 case 0:
                     button.addActionListener(e -> {
@@ -193,18 +194,21 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
         int playerY = client.getPlayerFrame().getHeight() * 3 / 4;
         int dealerX = client.getPlayerFrame().getWidth() * 3 / 8;
         int informationX = client.getPlayerFrame().getWidth() / 12;
+        int idX = client.getPlayerFrame().getWidth() / 12;
+        int idY = client.getPlayerFrame().getHeight() / 4;
 
         setFont(new Font("华文正楷", Font.ITALIC, fontSize));
 
-        g.drawString(dealerStatus, dealerX , dealerY);
-        if(playerNum == 1){
-            g.drawString(playerStatuses.get(0), dealerX , playerY);
-        } else{
-            for(int i = 0; i < playerNum;i++){
-                g.drawString(playerStatuses.get(i), informationX + client.getPlayerFrame().getWidth() / 3 , playerY);
+
+        g.drawString(dealerStatus, dealerX, dealerY);
+        if (id != null) g.drawString(id.toString(), idX, idY);
+        if (playerNum == 1) {
+            g.drawString(playerStatuses.get(0), dealerX, playerY);
+        } else {
+            for (int i = 0; i < playerNum; i++) {
+                g.drawString(playerStatuses.get(i), informationX + i * client.getPlayerFrame().getWidth() / 3, playerY);
             }
         }
-
 
 
     }
@@ -291,8 +295,8 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
                             Image image = ImageUtil.getImage("card/" + infos[i]);
                             placeCard.add(image);
                         }
-                        int sum = Integer.parseInt(infos[infos.length-1]);
-                        if(sum < 21) dealerStatus = "未获得BlackJack";
+                        int sum = Integer.parseInt(infos[infos.length - 1]);
+                        if (sum < 21) dealerStatus = "未获得BlackJack";
                         else dealerStatus = "BlackJack";
                         updateUI();
                         resize();
@@ -307,8 +311,8 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
                             Image image = ImageUtil.getImage("card/" + infos[i]);
                             placeCard.add(image);
                         }
-                        int sum = Integer.parseInt(infos[infos.length-1]);
-                        playerStatuses.put(id,"点数："+sum);
+                        int sum = Integer.parseInt(infos[infos.length - 1]);
+                        playerStatuses.put(id, "点数：" + sum);
                         resize();
                         updateUI();
                     } else if (infos[0].equalsIgnoreCase("operate")) {
@@ -337,13 +341,15 @@ public class PlayerPanel extends JPanel implements Panel, Runnable {
                             String result = infos[i];
                             if ("draw".equalsIgnoreCase(infos[i])) {
                                 i++;
+                                builder.append("#");
                                 continue;
                             }
                             i++;
                             builder.append("$").append(infos[i]);
+                            builder.append("#");
                             int bet = Integer.parseInt(infos[i]);
-                            if(id == this.id){
-                                if(result.equalsIgnoreCase("win")) client.setBet(bet+ client.getBet());
+                            if (id == this.id) {
+                                if (result.equalsIgnoreCase("win")) client.setBet(bet + client.getBet());
                                 else client.setBet(client.getBet() - bet);
                             }
                         }

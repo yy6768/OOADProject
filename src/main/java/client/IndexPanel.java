@@ -19,7 +19,9 @@ import java.util.Random;
 public class IndexPanel extends JPanel implements Panel {
     //当前界面的客户端
     private final PlayerClient client;
-    //当前界面所有Label
+    //当前界面的title
+    private JLabel title;
+    //当前界面按钮Label
     private final List<JLabel> labels = new ArrayList<>();
     private Image cardImg;
 
@@ -49,7 +51,7 @@ public class IndexPanel extends JPanel implements Panel {
         title.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
         title.setBounds(titleX, titleY, titleWidth, fontSize);
         add(title);
-        labels.add(title);
+        this.title = title;
     }
 
     /**
@@ -83,7 +85,11 @@ public class IndexPanel extends JPanel implements Panel {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                client.startMultiGame();
+                System.out.println(111);
+                for (JLabel label:labels) {
+                    label.setEnabled(false);
+                }
+                new Thread(client::startMultiGame).start();
             }
         });
         multiPlayButton.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
@@ -142,6 +148,7 @@ public class IndexPanel extends JPanel implements Panel {
         for (JLabel label : labels) {
             remove(label);
         }
+        remove(title);
         renderTitle();
         renderLabels();
         Random random  = new Random();

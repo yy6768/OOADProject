@@ -77,15 +77,19 @@ public class ResultDialog extends JDialog {
      * 初始化文字信息
      */
     private void initLabel() {
-        JLabel label = new JLabel(content);
-        int labelX = getWidth() / 5;
-        int labelY =  getHeight() / 3;
-        int labelWidth = getWidth() * 4 / 5;
+
+        int labelX = getWidth() / 4;
+        int labelY =  getHeight() / 6;
+        int labelWidth = getWidth()  / 2;
         int labelHeight = getHeight() / 10;
-        int fontSize = getHeight() / 10;
-        label.setFont(new Font("Lucida Handwriting", Font.BOLD | Font.ITALIC, fontSize));
-        label.setBounds(labelX, labelY, labelWidth, labelHeight);
-        add(label);
+        int fontSize = getHeight() / 20;
+        String[] res = content.split("#");
+        for(int i = 0; i < res.length; i++){
+            JLabel label = new JLabel(res[i]);
+            label.setFont(new Font(Font.DIALOG, Font.BOLD | Font.ITALIC, fontSize));
+            label.setBounds(labelX, labelY + i * fontSize * 2, labelWidth, labelHeight);
+            add(label);
+        }
     }
 
     /**

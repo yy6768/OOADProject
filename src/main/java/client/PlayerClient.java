@@ -16,7 +16,7 @@ import java.net.Socket;
  * 用户的客户端类,管理JFrame窗口
  * 完成用户界面的切换
  */
-public class PlayerClient {
+public class PlayerClient extends Thread{
     //当前玩家的游戏窗口
     private final JFrame playerFrame = new JFrame("BlackJack");
     //当前玩家的游戏界面
@@ -27,7 +27,7 @@ public class PlayerClient {
     /**
      * 构造函数
      */
-    public PlayerClient(){
+    public PlayerClient() {
         bet = PlayerConfig.INIT_BET;
     }
 
@@ -80,10 +80,10 @@ public class PlayerClient {
      * 2、替换当前界面为1个新的游戏界面
      * 3、启动一局新游戏
      */
-    public void startGame(){
+    public void startGame() {
         // 判断
-        if(bet <= 50){
-            JOptionPane.showMessageDialog(playerFrame,"您已没有最低限额的赌注");
+        if (bet <= 50) {
+            JOptionPane.showMessageDialog(playerFrame, "您已没有最低限额的赌注");
             playerFrame.dispose();
             return;
         }
@@ -96,7 +96,7 @@ public class PlayerClient {
             bw.write("s" + "\r\n");
             bw.flush();
             //新建游戏界面
-            panel = new PlayerPanel(1,this, socket);
+            panel = new PlayerPanel(1, this, socket);
             //替换首页界面到游戏界面
             playerFrame.remove((Component) currentPanel);
             playerFrame.add(panel);
@@ -110,8 +110,8 @@ public class PlayerClient {
 
     public void startMultiGame() {
         // 判断
-        if(bet <= 50){
-            JOptionPane.showMessageDialog(playerFrame,"您已没有最低限额的赌注");
+        if (bet <= 50) {
+            JOptionPane.showMessageDialog(playerFrame, "您已没有最低限额的赌注");
             playerFrame.dispose();
             return;
         }
@@ -125,9 +125,9 @@ public class PlayerClient {
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
             bw.write("m" + "\r\n");
             bw.flush();
-
+            br.readLine();
             //新建游戏界面
-            panel = new PlayerPanel(1,this, socket);
+            panel = new PlayerPanel(3, this, socket);
             //替换首页界面到游戏界面
             playerFrame.remove((Component) currentPanel);
             playerFrame.add(panel);
@@ -166,15 +166,22 @@ public class PlayerClient {
     }
 
 
+    @Override
+    public void run() {
+        initFrame();
+    }
+
     /**
      * main函数，启动客户端
+     *
      * @param args
      */
     public static void main(String[] args) {
-        PlayerClient client = new PlayerClient();
-        client.initFrame();
+        for (int i = 0; i < 3; i++) {
+            PlayerClient playerClient = new PlayerClient();
+            playerClient.start();
+        }
     }
-
 
 
 }

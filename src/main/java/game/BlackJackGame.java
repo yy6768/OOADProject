@@ -55,6 +55,7 @@ public class BlackJackGame extends Thread {
         int dealerDis = Math.abs(dealerSum - 21);
         for (int i = 0; i < playerNum; i++){
             Player player = players.get(i);
+            if(player.getStatus().equalsIgnoreCase("lose")) continue;
             int playerSum = player.getPlace().calculate();
             if (dealerSum > 21) {
                 player.setStatus("win");
@@ -106,7 +107,7 @@ public class BlackJackGame extends Thread {
         res.append("result ");
         for(int i = 0; i < playerNum; i++){
             Player player = players.get(i);
-            res.append(player.getId()).append(" ").append(player.getStatus()).append(" ").append(player.getPlace().getBet());
+            res.append(player.getId()).append(" ").append(player.getStatus()).append(" ").append(player.getPlace().getBet()).append(" ");
         }
         sendInfo(res.toString());
     }
@@ -115,6 +116,7 @@ public class BlackJackGame extends Thread {
         System.out.println("player" + player.getId() + " operate");
         Socket socket = playerSockets.get(player.getId());
         boolean flag = true;
+        player.setStatus("playing");
         try {
             InputStream in = socket.getInputStream();
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
@@ -140,16 +142,20 @@ public class BlackJackGame extends Thread {
                         System.out.println("无效的指令");
                     }
                 }
+
                 if (!("playing".equalsIgnoreCase(player.getStatus()) || "double".equalsIgnoreCase(player.getStatus()))) {
                     System.out.println("end!");
+                    System.out.println(player.getStatus());
                     sendInfo("end " + player.getId());
                     flag = false;
                 }
             }
-
+            //用户无法操作说明掉线了或者关闭了客户端
         } catch (IOException e) {
             e.printStackTrace();
             System.out.println("操作失败");
+            player.setStatus("lose");
+            sendInfo("end " + player.getId());
         }
     }
 
@@ -163,10 +169,8 @@ public class BlackJackGame extends Thread {
                 bw.write(s + "\r\n");
                 bw.flush();
             } catch (IOException e) {
-                e.printStackTrace();
-                System.out.println("服务器连接失败");
+                System.out.println("客户端连接失败");
             }
-
         }
     }
 

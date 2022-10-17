@@ -27,35 +27,45 @@ public class GameServer extends ServerSocket {
                 Socket incoming = s.accept();
                 System.out.println("connect!");
                 InputStream inputStream = incoming.getInputStream();
-                OutputStream outputStream = incoming.getOutputStream();
                 BufferedReader br = new BufferedReader(new InputStreamReader(inputStream));
-                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(outputStream));
                 String command;
-                while ((command = br.readLine()) != null) {
+                if ((command = br.readLine()) != null) {
                     System.out.println(command);
                     if ("s".equalsIgnoreCase(command)) {
                         List<Socket> players = new ArrayList<>();
                         players.add(incoming);
                         BlackJackGame game = new BlackJackGame(players);
-//                        System.out.println("start");
                         game.start();
-                        break;
                     } else if ("m".equalsIgnoreCase(command)) {
                         s.waitingList.add(incoming);
+                        System.out.println("m " + s.waitingList.size() );
                         if (s.waitingList.size() == 3) {
-                            List<Socket> Sockets = new ArrayList<>(s.waitingList);
-                            BlackJackGame game = new BlackJackGame(Sockets);
+                            List<Socket> sockets = new ArrayList<>(s.waitingList);
+                            sendInfo(sockets);
+                            BlackJackGame game = new BlackJackGame(sockets);
                             s.waitingList.clear();
                             System.out.println("multiPlayer");
                             game.start();
                         }
-                        break;
                     }
                 }
 
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    private static void sendInfo(List<Socket> sockets) {
+        for(Socket socket: sockets){
+            try{
+                OutputStream out = socket.getOutputStream();
+                BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(out));
+                bw.write("ok\r\n");
+                bw.flush();
+            } catch (IOException e){
+                System.out.println("匹配失败");
+            }
         }
     }
 }
