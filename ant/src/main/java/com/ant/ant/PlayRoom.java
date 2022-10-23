@@ -3,9 +3,6 @@ package com.ant.ant;
 import com.ant.util.ResultPanel;
 
 import javax.swing.*;
-import java.awt.*;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 启动类
@@ -25,7 +22,7 @@ public class PlayRoom {
     public static final Integer WIDTH = 1200;
     public static final Integer INC_TIME = 100;
     public static final JFrame gameRoomFrame = new JFrame();
-
+    public static final Integer STATUS_NUM = 1<<CreepingGame.ANT_NUM;
     /*
         2个timestamp分别记录最小和最大的时间戳
      */
@@ -45,7 +42,7 @@ public class PlayRoom {
             CreepGame继承了JPanel
             每一场游戏作为一个组件加入到窗体中
          */
-        for (int i = 0; i < 32; i++) {
+        for (int i = 0; i < STATUS_NUM; i++) {
             CreepingGame creepingGame = new CreepingGame(i, INC_TIME);
             gameRoomFrame.add(creepingGame);
             Integer res = creepingGame.start();

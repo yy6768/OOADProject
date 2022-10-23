@@ -5,6 +5,11 @@ import com.ant.ant.PlayRoom;
 import javax.swing.*;
 import java.awt.*;
 
+/**
+ * 工具类用于最后显示结果
+ * 也继承JPanel
+ * 当所有情况结束之后我们使用ResultPanel替换当前的画面
+ */
 public class ResultPanel extends JPanel {
     @Override
     public void paint(Graphics g) {

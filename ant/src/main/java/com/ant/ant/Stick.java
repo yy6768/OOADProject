@@ -30,7 +30,7 @@ public class Stick{
     public void draw(Graphics g, Integer y){
         g.setColor(Color.BLACK);
         Integer frameWidth = PlayRoom.gameRoomFrame.getWidth();
-        Integer ratio = frameWidth / 300 + 1;
+        Integer ratio = frameWidth / (rightEnd - leftEnd) + 1;
         g.drawLine(leftEnd * ratio, y, rightEnd *  ratio, y);
     }
 
